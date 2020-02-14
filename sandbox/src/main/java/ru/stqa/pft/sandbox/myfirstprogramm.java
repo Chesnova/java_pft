@@ -7,8 +7,9 @@ public class MyFirstProgramm {
         Square s = new Square(5);
         System.out.println("Площадь квадрата со стороной" + s.l + "=" + s.area ());
 
-        Point p = new Point(4,9);
-        System.out.println("Расстояние между точками" + "=" + p.distance());
+      Point p1 = new Point(3,4);
+      Point p2 = new Point(7,8);
+      System.out.println(p1.distance(p2));
     }
 
 
