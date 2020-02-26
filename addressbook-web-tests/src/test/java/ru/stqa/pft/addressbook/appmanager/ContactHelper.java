@@ -55,4 +55,17 @@ public class ContactHelper extends HelperBase {
   public void submitContactModification() {
     click(By.name("update"));
   }
+
+  public void createContact(ContactData contact) {
+    fillContactForm(contact);
+    submitContactCreation();
+    returnToHomePage();
+  }
+
+  private void fillContactForm(ContactData contact) {
+  }
+
+  public boolean isThereAContact() {
+    return isElementPresent(By.xpath("//table[@id='maintable']/tbody/tr[2]/td/input"));
+  }
 }
