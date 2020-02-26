@@ -20,7 +20,7 @@ public class NavigationHelper extends HelperBase {
   }
 
   public void gotoAddnewPage() {
-    if (isElementPresent(By.id("maintable"))) {
+    if (isElementPresent(By.cssSelector("maintable"))) {
       return;
     }
     click(By.linkText("add new"));
