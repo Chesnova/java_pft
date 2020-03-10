@@ -10,7 +10,7 @@ public class ContactDeletionTests extends TestBase {
 
   @Test
   public void testContactDeletion() throws Exception {
-    app.getNavigationHelper().gotoHomePage();
+    app.goTo().gotoHomePage();
     if (! app.getContactHelper().isThereAContact()) {
       app.getContactHelper().createContact(new ContactData("test1", "test", "+79111111111", "test@mail.com", "test1"));
     }
