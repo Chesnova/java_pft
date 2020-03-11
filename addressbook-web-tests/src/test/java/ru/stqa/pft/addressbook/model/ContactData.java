@@ -19,19 +19,6 @@ public class ContactData {
     this.id = id;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContactData that = (ContactData) o;
-    return Objects.equals(lastName, that.lastName);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(lastName);
-  }
-
   public ContactData(String FirstName, String LastName, String Telephone, String EMail, String group) {
     this.id = Integer.MAX_VALUE;
     this.firstName = FirstName;
@@ -70,9 +57,24 @@ public class ContactData {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ContactData that = (ContactData) o;
+    return id == that.id &&
+            Objects.equals(firstName, that.firstName) &&
+            Objects.equals(lastName, that.lastName);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, firstName, lastName);
+  }
+
+  @Override
   public String toString() {
     return "ContactData{" +
-            "id='" + id + '\'' +
+            "id=" + id +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             '}';
