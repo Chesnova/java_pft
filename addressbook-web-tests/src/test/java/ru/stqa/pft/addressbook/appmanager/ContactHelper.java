@@ -53,7 +53,7 @@ public class ContactHelper extends HelperBase {
   }
 
   public void initContactModification() {
-    click(By.xpath("//img[@alt='Edit']"));
+    click(By.xpath("//table[@id='maintable']/tbody//td[8]/a/img")); //карандашик
   }
 
   public void submitContactModification() {
@@ -61,15 +61,12 @@ public class ContactHelper extends HelperBase {
   }
 
   public void createContact(ContactData contact) {
-    fillContactForm(contact);
+    fillContactForm(contact, true);
     submitContactCreation();
     returnToHomePage();
   }
 
-  private void fillContactForm(ContactData contact) {
-  }
-
-  public boolean isThereAContact() {
+   public boolean isThereAContact() {
     return isElementPresent(By.xpath("//table[@id='maintable']/tbody/tr[2]/td/input"));
   }
 

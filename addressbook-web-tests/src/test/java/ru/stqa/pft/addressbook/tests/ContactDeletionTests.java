@@ -10,11 +10,11 @@ public class ContactDeletionTests extends TestBase {
 
   @Test
   public void testContactDeletion() throws Exception {
+    List<ContactData> before = app.getContactHelper().getContactList();
     app.goTo().gotoHomePage();
     if (! app.getContactHelper().isThereAContact()) {
       app.getContactHelper().createContact(new ContactData("test1", "test", "+79111111111", "test@mail.com", "test1"));
     }
-    List<ContactData> before = app.getContactHelper().getContactList();
     app.getContactHelper().selectContact(before.size() - 1);
     app.getContactHelper().deleteSelectedContacts();
     app.getContactHelper().selectedAlert();
@@ -24,6 +24,5 @@ public class ContactDeletionTests extends TestBase {
 
     before.remove(before.size() - 1);
     Assert.assertEquals(before, after);
-
   }
 }

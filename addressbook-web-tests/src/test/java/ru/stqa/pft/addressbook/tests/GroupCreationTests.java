@@ -12,11 +12,11 @@ public class GroupCreationTests extends TestBase {
   @Test
   public void testGroupCreation() {
     app.goTo().groupPage();
-    Set<GroupData> before = app.group().all();
+    Set<GroupData> before = app.group().all(); //считаем количество групп до добавления
     GroupData group = new GroupData().withName("test2");
     app.group().create(group);
     Set<GroupData> after = app.group().all();
-    Assert.assertEquals(after.size(), before.size() + 1);
+    Assert.assertEquals(after.size(), before.size() + 1); //считаем количество групп после добавления
 
     group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt());
     before.add(group);
