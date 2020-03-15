@@ -1,15 +1,15 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -43,8 +43,8 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("//input[@value='Delete']"));
   }
 
-  public void selectContact(int index) {
-    wd.findElements(By.name("selected[]")).get(index).click();
+  public void selectContactById(int id) {
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
   }
 
   public void selectedAlert() {
@@ -52,12 +52,12 @@ public class ContactHelper extends HelperBase {
     wd.switchTo().alert().accept();
   }
 
-  public void initContactModification(int index) {
-    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click(); //карандашик
-  }
-
   public void submitContactModification() {
     click(By.name("update"));
+  }
+
+  private void initContactModificationById(int id) {
+    wd.findElement(By.xpath(String.format("//input[@value='%s']/../../td[8]/a",id))).click();
   }
 
   public void create(ContactData contact) {
@@ -65,19 +65,21 @@ public class ContactHelper extends HelperBase {
     submitContactCreation();
     returnToHomePage();
   }
-  public void modify(int index, ContactData contact) {
-    selectContact(index); //выбрать контакт
-    initContactModification(index); //начать модификацию
+  public void modify(ContactData contact) {
+    selectContactById(contact.getId()); //выбрать контакт
+    initContactModificationById(contact.getId()); //начать модификацию
     fillContactForm(contact, false); //заполнить форму
     submitContactModification (); //подтвердить
     returnToHomePage(); //вернуться на главную страницу
   }
 
-  public void delete(int index) {
-    selectContact(index);
+
+ public void delete(ContactData contact) {
+    selectContactById(contact.getId());
     deleteSelectedContacts();
     selectedAlert();
     returnToHomePage();
+
   }
 
 
@@ -89,8 +91,8 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr[2]/td/input")).size();
   }
 
-  public List<ContactData> list() {
-    List<ContactData> contacts = new ArrayList<ContactData>();
+ public Set<ContactData> all() {
+    Set<ContactData> contacts = new HashSet<ContactData>();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     for (WebElement element : elements) {
       List<WebElement> cells = element.findElements(By.tagName("td"));
@@ -101,4 +103,5 @@ public class ContactHelper extends HelperBase {
     }
     return contacts;
   }
-}
+
+ }
