@@ -3,11 +3,11 @@ package ru.stqa.pft.addressbook.model;
 import java.util.Objects;
 
 public class ContactData {
-  private int id;
-  private final String firstName;
-  private final String lastName;
-  private final String telephone;
-  private final String EMail;
+  private int id = Integer.MAX_VALUE;
+  private String firstName;
+  private String lastName;
+  private String telephone;
+  private String EMail;
   private String group;
 
 
@@ -15,18 +15,36 @@ public class ContactData {
     return id;
   }
 
-  public void setId(int id) {
+  public ContactData withId(int id) {
     this.id = id;
+    return this;
   }
 
-  public ContactData(String FirstName, String LastName, String Telephone, String EMail, String group) {
-    this.id = Integer.MAX_VALUE; // показывает ид максимальный
-    this.firstName = FirstName; // добавляет новый контакт
-    this.lastName = LastName;
-    this.telephone = Telephone;
-    this.EMail = EMail;
-    this.group = group;
+  public ContactData withFirstName(String firstName) {
+    this.firstName = firstName;
+    return this;
   }
+
+  public ContactData withLastName(String lastName) {
+    this.lastName = lastName;
+    return this;
+  }
+
+  public ContactData withTelephone(String telephone) {
+    this.telephone = telephone;
+    return this;
+  }
+
+  public ContactData withEMail(String EMail) {
+    this.EMail = EMail;
+    return this;
+  }
+
+  public ContactData withGroup(String group) {
+    this.group = group;
+    return this;
+  }
+
 
   @Override
   public boolean equals(Object o) {
@@ -50,14 +68,6 @@ public class ContactData {
             '}';
   }
 
-  public ContactData(int id, String FirstName, String LastName, String Telephone, String EMail, String group) {
-    this.id = id; //before add показывает ид из трех цифр
-    this.firstName = FirstName; //показывает
-    this.lastName = LastName; // показывает
-    this.telephone = Telephone;
-    this.EMail = EMail;
-    this.group = group;
-  }
 
   public String getFirstName() {
     return firstName;
