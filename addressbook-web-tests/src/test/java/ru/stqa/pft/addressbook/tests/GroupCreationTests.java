@@ -16,10 +16,21 @@ public class GroupCreationTests extends TestBase {
     Groups before = app.group().all(); //считаем количество групп до добавления
     GroupData group = new GroupData().withName("test2");
     app.group().create(group);
+    assertThat(app.group().count(), equalTo(before.size() + 1)); //считаем количество групп после добавления
     Groups after = app.group().all();
-    assertThat(after.size(), equalTo(before.size() + 1)); //считаем количество групп после добавления
-
     assertThat(after, equalTo(
             before.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
   }
+
+  @Test
+  public void testBadGroupCreation() {
+    app.goTo().groupPage();
+    Groups before = app.group().all(); //считаем количество групп до добавления
+    GroupData group = new GroupData().withName("test2'");
+    app.group().create(group);
+    assertThat(app.group().count(), equalTo(before.size())); //считаем количество групп после добавления
+    Groups after = app.group().all();
+    assertThat(after, equalTo(before));
+  }
+
 }
