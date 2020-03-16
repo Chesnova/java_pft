@@ -29,6 +29,9 @@ public class ContactHelper extends HelperBase {
     type(By.name("lastname"), contactData.getLastName());
     type(By.name("mobile"), contactData.getTelephone());
     type(By.name("email"), contactData.getEMail());
+    type(By.name("home"),contactData.getHomePhone());
+    type(By.name("mobile"),contactData.getMobilePhone());
+    type(By.name("work"),contactData.getWorkPhone());
 
     if (creation) {
       new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
@@ -91,8 +94,6 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr[2]/td/input")).size();
   }
 
-
-
   private Contacts contactCache = null;
 
   public Contacts all() {
@@ -107,8 +108,22 @@ public class ContactHelper extends HelperBase {
        int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
        String lastname = cells.get(1).getText();
        String firstname = cells.get(2).getText();
-       contactCache.add(new ContactData().withId(id).withFirstName(firstname).withLastName(lastname));
+        String[] phones = cells.get(5).getText().split("\n");
+        contactCache.add(new ContactData().withId(id).withFirstName(firstname).withLastName(lastname)
+                .withHomePhone(phones[0]).withMobilePhone(phones[1]).withWorkPhone(phones[2]));
       }
     return new Contacts(contactCache);
   }
- }
+
+  public ContactData contactInfoFormEditForm(ContactData contact) {
+    initContactModificationById(contact.getId());
+    String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+    String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+    String home = wd.findElement(By.name("home")).getAttribute("value");
+    String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+    String work = wd.findElement(By.name("work")).getAttribute("value");
+    wd.navigate().back();
+    return new ContactData().withId(contact.getId()).withFirstName(firstname).withLastName(lastname)
+            .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+  }
+}
