@@ -3,17 +3,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="x-ua-compatible" content="IE=edge"/>
-<title>Test results - Class ru.stqa.pft.addressbook.tests.ContactCreationTests</title>
+<title>Test results - Class ru.stqa.pft.addressbook.tests.ContactDeletionTests</title>
 <link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
 <link href="../css/style.css" rel="stylesheet" type="text/css"/>
 <script src="../js/report.js" type="text/javascript"></script>
 </head>
 <body>
 <div id="content">
-<h1>Class ru.stqa.pft.addressbook.tests.ContactCreationTests</h1>
+<h1>Class ru.stqa.pft.addressbook.tests.ContactDeletionTests</h1>
 <div class="breadcrumbs">
 <a href="../index.html">all</a> &gt; 
-<a href="../packages/ru.stqa.pft.addressbook.tests.html">ru.stqa.pft.addressbook.tests</a> &gt; ContactCreationTests</div>
+<a href="../packages/ru.stqa.pft.addressbook.tests.html">ru.stqa.pft.addressbook.tests</a> &gt; ContactDeletionTests</div>
 <div id="summary">
 <table>
 <tr>
@@ -23,7 +23,7 @@
 <tr>
 <td>
 <div class="infoBox" id="tests">
-<div class="counter">3</div>
+<div class="counter">1</div>
 <p>tests</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">1m35.14s</div>
+<div class="counter">24.055s</div>
 <p>duration</p>
 </div>
 </td>
@@ -63,6 +63,9 @@
 <li>
 <a href="#tab0">Tests</a>
 </li>
+<li>
+<a href="#tab1">Standard error</a>
+</li>
 </ul>
 <div id="tab0" class="tab">
 <h2>Tests</h2>
@@ -75,21 +78,22 @@
 </tr>
 </thead>
 <tr>
-<td class="success">testContactCreation[0](ContactData{id=2147483647, firstName='First 0', lastName='Last 0'})</td>
-<td class="success">41.368s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testContactCreation[1](ContactData{id=2147483647, firstName='First 1', lastName='Last 1'})</td>
-<td class="success">25.847s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">testContactCreation[2](ContactData{id=2147483647, firstName='First 2', lastName='Last 2'})</td>
-<td class="success">27.921s</td>
+<td class="success">testContactDeletion</td>
+<td class="success">24.055s</td>
 <td class="success">passed</td>
 </tr>
 </table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard error</h2>
+<span class="code">
+<pre>1584982500454	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/&lt;@chrome://marionette/content/sync.js:244:13
+TimedPromise@chrome://marionette/content/sync.js:229:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:416:10
+webdriverClickElement@chrome://marionette/content/interaction.js:182:31
+</pre>
+</span>
 </div>
 </div>
 <div id="footer">
