@@ -12,6 +12,8 @@ dependencies {
     implementation 'com.beust:jcommander:1.78'
     implementation 'com.thoughtworks.xstream:xstream:1.4.11.1'
     implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+
 
 }
 
