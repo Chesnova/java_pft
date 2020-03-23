@@ -9,27 +9,5 @@
     "mobilePhone": "MobilePhone 0",
     "workPhone": "WorkPhone 0",
     "address": "Address 0"
-  },
-  {
-    "firstName": "First 1",
-    "lastName": "Last 1",
-    "EMail": "EMail 1",
-    "EMail2": "EMail2 1",
-    "EMail3": "EMail3 1",
-    "homePhone": "HomePhone 1",
-    "mobilePhone": "MobilePhone 1",
-    "workPhone": "WorkPhone 1",
-    "address": "Address 1"
-  },
-  {
-    "firstName": "First 2",
-    "lastName": "Last 2",
-    "EMail": "EMail 2",
-    "EMail2": "EMail2 2",
-    "EMail3": "EMail3 2",
-    "homePhone": "HomePhone 2",
-    "mobilePhone": "MobilePhone 2",
-    "workPhone": "WorkPhone 2",
-    "address": "Address 2"
   }
 ]
