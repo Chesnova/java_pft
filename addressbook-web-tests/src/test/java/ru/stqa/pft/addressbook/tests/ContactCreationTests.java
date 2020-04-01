@@ -7,6 +7,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -65,15 +66,18 @@ public class ContactCreationTests extends TestBase {
     verifyContactListInUI();
   }
 
-  @Test ( enabled=false )
+  @Test
   public void testContactCreation2() throws Exception {
-    app.goTo().addnewPage();
+    Groups groups = app.db().groups();
     File photo = new File("src/test/resources/stru.png");
     ContactData contact = new ContactData()
             .withLastName("test").withFirstName("test")
             .withMobilePhone("+79111111111")
             .withAddress("198000, Saint Petersburg,\n" + "Nevsky prospekt, 25/3-43\n" + "domofon 43")
-            .withEMail("test@mail.com").withPhoto(photo).withGroup("test1");
+            .withEMail("test@mail.com").withPhoto(photo)
+            .inGroup(groups.iterator().next());
+
+    app.goTo().addnewPage();
     app.contact().create(contact);
     app.goTo().homePage();
  }
@@ -83,7 +87,7 @@ public class ContactCreationTests extends TestBase {
     Contacts before = app.contact().all();
     app.goTo().addnewPage();
     ContactData contact = new ContactData()
-            .withLastName("test'").withFirstName("test").withTelephone("+79111111111").withEMail("test@mail.com").withGroup("test1");
+            .withLastName("test'").withFirstName("test").withTelephone("+79111111111").withEMail("test@mail.com"); //.withGroup("test1")
     app.contact().create(contact);
     app.goTo().homePage();
     assertThat(app.contact().count(), equalTo(before.size()));

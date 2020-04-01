@@ -47,4 +47,8 @@ task testContacts (type: Test) {
     if (project.hasProperty('verifyUI')) {
         systemProperty 'verifyUI', "${verifyUI}"
     }
+
+    tasks.withType(Test) {
+        systemProperty "file.encoding", "UTF-8"
+    }
 }

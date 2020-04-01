@@ -19,8 +19,8 @@ public class ContactAddressTests extends TestBase{
               .withLastName("test").withFirstName("test")
               .withAddress("198000, Saint Petersburg,\n" + "Nevsky prospekt, 25/3-43\n" + "domofon 43")
               .withMobilePhone("+79111111111")
-              .withEMail("test@mail.com")
-              .withGroup("test1"));
+             // .withGroup("test1")
+              .withEMail("test@mail.com"));
     }
   }
 
