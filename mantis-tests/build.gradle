@@ -9,8 +9,9 @@ dependencies {
     implementation 'org.testng:testng:7.1.0'
     implementation 'org.seleniumhq.selenium:selenium-java:4.0.0-alpha-4'
     implementation 'org.hamcrest:java-hamcrest:2.0.0.0'
-    implementation 'com.cisco.oss.foundation:http-client-apache:1.2.2-4'
     implementation 'org.apache.httpcomponents:httpcomponents-client:4.5.12'
+    implementation 'commons-logging:commons-logging:1.2'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.13'
 
 }
 
