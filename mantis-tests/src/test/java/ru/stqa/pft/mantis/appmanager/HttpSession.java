@@ -29,7 +29,7 @@ public class HttpSession {
   public boolean login(String username) throws IOException{
     HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "/login.php"); //создаем post запрос
 
-    //формируем набор параметров запросаб см. параметры запроса в фаэрбаге
+
     List<NameValuePair> params = new ArrayList<NameValuePair>();
     params.add(new BasicNameValuePair("username", username));
     params.add(new BasicNameValuePair("password", "test"));
