@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.MatchResult;
+
 
 public class ApplicationManager {
 
@@ -36,6 +36,7 @@ public class ApplicationManager {
     }
   }
 
+  //метод который инициализирует помощника при каждом обращении
   public HttpSession newSession() {
     return new HttpSession(this);
   }
