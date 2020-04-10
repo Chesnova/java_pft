@@ -46,7 +46,7 @@ public class HttpSession {
     String body = geTextFrom(response);
 
     // проверка, залогинился ли пользователь
-    return body.contains(String.format("<span class=\"italic\">%s</span>", username)); //user-info
+    return body.contains(String.format("<span class=\"user-info\">%s</span>", username));
   }
 
   private String geTextFrom(CloseableHttpResponse response) throws IOException {
@@ -69,6 +69,6 @@ public class HttpSession {
     String body = geTextFrom(response);
 
     //проверяем что мы залогинены юзером username
-    return body.contains(String.format("<span class=\"italic\">%s</span>", username)); //user-info
+    return body.contains(String.format("<span class=\"user-info\">%s</span>", username));
   }
 }
