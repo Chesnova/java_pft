@@ -32,7 +32,7 @@ public class HttpSession {
 
     List<NameValuePair> params = new ArrayList<NameValuePair>();
     params.add(new BasicNameValuePair("username", username));
-    params.add(new BasicNameValuePair("password", password)); //"test"
+    params.add(new BasicNameValuePair("password", password));
     params.add(new BasicNameValuePair("secure_session", "on"));
     params.add(new BasicNameValuePair("return", "index.php"));
 
