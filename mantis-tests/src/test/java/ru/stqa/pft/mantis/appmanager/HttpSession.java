@@ -26,13 +26,13 @@ public class HttpSession {
     //LaxRedirectStrategy - стратегия при которой перенаправления выполняются автоматически
   }
 
-  public boolean login(String username) throws IOException{
+  public boolean login(String username, String password) throws IOException{
     HttpPost post = new HttpPost(app.getProperty("web.baseUrl") + "/login.php"); //создаем post запрос
 
 
     List<NameValuePair> params = new ArrayList<NameValuePair>();
     params.add(new BasicNameValuePair("username", username));
-    params.add(new BasicNameValuePair("password", "test"));
+    params.add(new BasicNameValuePair("password", password)); //"test"
     params.add(new BasicNameValuePair("secure_session", "on"));
     params.add(new BasicNameValuePair("return", "index.php"));
 
@@ -46,7 +46,7 @@ public class HttpSession {
     String body = geTextFrom(response);
 
     // проверка, залогинился ли пользователь
-    return body.contains(String.format("<span class=\"user-info\">%s</span>", username));
+    return body.contains(String.format("<span class=\"italic\">%s</span>", username)); //user-info
   }
 
   private String geTextFrom(CloseableHttpResponse response) throws IOException {
@@ -69,6 +69,6 @@ public class HttpSession {
     String body = geTextFrom(response);
 
     //проверяем что мы залогинены юзером username
-    return body.contains(String.format("<span class=\"user-info\">%s</span>", username));
+    return body.contains(String.format("<span class=\"italic\">%s</span>", username)); //user-info
   }
 }
