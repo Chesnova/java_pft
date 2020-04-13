@@ -2,6 +2,7 @@ package ru.stqa.pft.mantis.appmanager;
 
 import org.subethamail.wiser.Wiser;
 import org.subethamail.wiser.WiserMessage;
+import ru.lanwen.verbalregex.VerbalExpression;
 import ru.stqa.pft.mantis.model.MailMessage;
 
 import javax.mail.MessagingException;
@@ -57,5 +58,15 @@ public class MailHelper {
 
   public void stop() {
     wiser.stop();
+  }
+
+  public String findConfirmationLink(List<MailMessage> mailMessages, String email) {
+    //из потока извлекаем объект письмо, у которого получатель - имейл юзера
+    MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(email)).findFirst().get();
+    //для получения регулярного выражения подключаем зависимость от библиотеки verbalregex
+    //строим выражение, которое содержит "http://".а после него непробельные символы.один или больше
+    VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
+    //выбираем регулярным выражением ссылку из письма
+    return regex.getText(mailMessage.text);
   }
 }

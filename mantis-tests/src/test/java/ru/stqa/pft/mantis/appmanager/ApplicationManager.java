@@ -21,7 +21,14 @@ public class ApplicationManager {
   private String browser;
   private RegistrationHelper registrationHelper;
   private FtpHelper ftp;
+  //создаем поле чтобы организовать ленивую инициализацию
   private MailHelper mailHelper;
+  //создаем поле чтобы организовать ленивую инициализацию
+  private DbHelper dbHelper;
+  //создаем поле чтобы организовать ленивую инициализацию
+  private UserHelper userHelper;
+  public NavigationHelper navigationHelper;
+
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -47,8 +54,28 @@ public class ApplicationManager {
   public String getProperty(String key) {
     return properties.getProperty(key);
   }
+  public DbHelper db() {
+    if (dbHelper == null) {
+      dbHelper = new DbHelper();
+    }
+    return dbHelper;
+  }
+  public NavigationHelper getNavigationHelper() {
+    if (navigationHelper == null) {
+      navigationHelper = new NavigationHelper(this);
+    }
+    return navigationHelper;
+  }
+  public UserHelper getUserHelper() {
+    if (userHelper == null) {
+      userHelper = new UserHelper(this);
+    }
+    return userHelper;
+  }
 
+  //метод возвращает объект типа RegistrationHelper, для обращения к RegistrationHelper через ApplicationManager
   public RegistrationHelper registration() {
+    //инициализируем RegistrationHelper только при первом обращении к этому методу
     if (registrationHelper == null) {
     registrationHelper = new RegistrationHelper (this);
     }

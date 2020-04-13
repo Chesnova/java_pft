@@ -52,4 +52,15 @@ public class HttpSession {
     String body = geTextFrom(response);
     return body.contains(String.format("<span class=\"user-info\">%s</span>", username));
   }
+
+ // public boolean goToManageUserPage() throws IOException {
+ //   if (isLoggedInAs("administrator")) {
+      //отправляем get запрос, чтоб перейти на /manage_user_page.php
+  //    HttpGet get = new HttpGet(app.getProperty("web.baseUrl") + "/manage_user_page.php");
+      //получает ответ с html кодом страницы
+  //    CloseableHttpResponse response = httpClient.execute(get);
+  //    return true;
+  //  }
+  //  return false;
+ // }
 }
