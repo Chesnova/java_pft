@@ -22,37 +22,32 @@ public class ChangePasswordForUserTests extends TestBase {
 
   @Test
   public void testChangePasswordForUser() throws IOException, MessagingException {
-    //Администратор входит в систему, переходит на страницу управления пользователями,
-    // выбирает заданного пользователя и нажимает кнопку Reset Password
-   // Однако получить информацию об идентификаторе и/или логине пользователя тесты
-    // должны самостоятельно во время выполнения. Можно это сделать,
-    // например, загрузив информацию о пользователях из базы данных.
-    //Шаги 1 и 2 необходимо выполнять через пользовательский интерфейс
 
-
-    //Отправляется письмо на адрес пользователя, тесты должны получить это письмо,
-    // извлечь из него ссылку для смены пароля, пройти по этой ссылке и изменить пароль.
-
-    //Затем тесты должны проверить, что пользователь может войти в систему с новым паролем.
-    //шаг 3 можно выполнить на уровне протокола HTTP.
-
-    //Почтовый сервер можно запускать непосредственно внутри тестов.
-
-    //логинимся админом и переходим на страницу управление пользователями
     String newPassword = "passwordnew";
+    //заходим на страницу логин пейдж
     app.getNavigationHelper().goToLoginPage();
+    //логинимся админом
     app.getUserHelper().login(app.getProperty("web.adminLogin"), app.getProperty("web.adminPassword"));
+    //переходим на страницу управление пользователями
     app.getNavigationHelper().goToManageUserPage();
 
+    // Однако получить информацию об идентификаторе и/или логине пользователя тесты
+    // должны самостоятельно во время выполнения. Можно это сделать,
+    // например, загрузив информацию о пользователях из базы данных.
     User changedUser = app.getUserHelper().getAnyUserFromBD();
+    //Администратор входит в систему, переходит на страницу управления пользователями,
     app.getNavigationHelper().goToUserPage(changedUser.getId());
+    // выбирает заданного пользователя и нажимает кнопку Reset Password
     app.getUserHelper().startResetPassword();
-    List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
+    //Отправляется письмо на адрес пользователя, тесты должны получить это письмо,
+     List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
+    // извлечь из него ссылку для смены пароля, пройти по этой ссылке и изменить пароль.
     String confirmationLink = app.mail().findConfirmationLink(mailMessages, changedUser.getEmail());
     app.registration().finish(confirmationLink, newPassword);
 
     User user = app.getUserHelper().getUserByIdFromBD(changedUser.getId());
 
+    //Затем тесты должны проверить, что пользователь может войти в систему с новым паролем.
     HttpSession sessionUser = app.newSession();
     assertTrue(sessionUser.login(user.getUsername(), newPassword));
     assertTrue(sessionUser.isLoggedInAs(user.getUsername()));

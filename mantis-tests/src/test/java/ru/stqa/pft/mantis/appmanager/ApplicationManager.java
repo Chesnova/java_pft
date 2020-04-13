@@ -56,7 +56,7 @@ public class ApplicationManager {
   }
   public DbHelper db() {
     if (dbHelper == null) {
-      dbHelper = new DbHelper();
+      dbHelper = new DbHelper(properties);
     }
     return dbHelper;
   }

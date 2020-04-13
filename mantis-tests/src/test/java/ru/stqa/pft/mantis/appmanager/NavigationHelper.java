@@ -7,11 +7,11 @@ public class NavigationHelper extends HelperBase {
     super(app);
   }
 
-
+//страница входа под логином
   public void goToLoginPage() {
     wd.get(app.getProperty("web.baseUrl") + "/login_page.php");
   }
-
+  //страница управления пользователями
   public void goToManageUserPage() {
     wd.get(app.getProperty("web.baseUrl") + "/manage_user_page.php");
   }

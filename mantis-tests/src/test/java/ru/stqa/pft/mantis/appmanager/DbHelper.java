@@ -9,22 +9,23 @@ import ru.stqa.pft.mantis.model.User;
 import ru.stqa.pft.mantis.model.Users;
 
 import java.util.List;
+import java.util.Properties;
 
 public class DbHelper {
   private final SessionFactory sessionFactory;
 
-  public DbHelper() {
+  public DbHelper(Properties properties) {
     // A SessionFactory is set up once for an application!
     final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .configure() // configures settings from hibernate.cfg.xml
             .build();
-    sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
+    sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
   }
 
   public Users getUsersFromBD() {
     Session session = sessionFactory.openSession();
     session.beginTransaction();
-    List<User> result = session.createQuery( "from User" ).list();
+    List<User> result = session.createQuery( "from User where username != 'administrator'" ).list();
     session.getTransaction().commit();
     session.close();
     return new Users(result);

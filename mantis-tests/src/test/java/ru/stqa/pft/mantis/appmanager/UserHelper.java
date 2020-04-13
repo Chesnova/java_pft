@@ -12,7 +12,7 @@ public class UserHelper extends HelperBase{
 
   public User getAnyUserFromBD() {
     Users users = app.db().getUsersFromBD();
-    return users.stream().filter((u) -> u.getAccessLevel() != 90).iterator().next();
+    return users.stream().filter((u) -> u.getAccessLevel() != 25).iterator().next();
   }
 
   public void startResetPassword() {
@@ -21,8 +21,9 @@ public class UserHelper extends HelperBase{
 
   public void login(String username, String password) {
     type(By.name("username"), username);
+    click(By.cssSelector("input[type='submit']"));
     type(By.name("password"), password);
-    click(By.cssSelector("input[value=\"Login\"]"));
+    click(By.cssSelector("input[type='submit']"));
   }
   public User getUserByIdFromBD(int id) {
     Users users = app.db().getUsersFromBD();
