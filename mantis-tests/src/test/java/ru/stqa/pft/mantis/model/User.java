@@ -27,7 +27,7 @@ public class User {
   private String password;
 
   @Type(type = "short")
-  private short accessLevel;
+  private short access_level;
 
 
   public int getId() {
@@ -67,11 +67,11 @@ public class User {
   }
 
   public int getAccessLevel() {
-    return accessLevel;
+    return access_level;
   }
 
   public User setAccessLevel(short accessLevel) {
-    this.accessLevel = accessLevel;
+    this.access_level = accessLevel;
     return this;
   }
 
@@ -82,7 +82,7 @@ public class User {
             ", username='" + username + '\'' +
             ", email='" + email + '\'' +
             ", password='" + password + '\'' +
-            ", accessLevel=" + accessLevel +
+            ", accessLevel=" + access_level +
             '}';
   }
 
@@ -92,7 +92,7 @@ public class User {
     if (o == null || getClass() != o.getClass()) return false;
     User user = (User) o;
     return id == user.id &&
-            accessLevel == user.accessLevel &&
+            access_level == user.access_level &&
             Objects.equals(username, user.username) &&
             Objects.equals(email, user.email) &&
             Objects.equals(password, user.password);
@@ -100,6 +100,6 @@ public class User {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, email, password, accessLevel);
+    return Objects.hash(id, username, email, password, access_level);
   }
 }

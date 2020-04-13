@@ -12,11 +12,11 @@ public class UserHelper extends HelperBase{
 
   public User getAnyUserFromBD() {
     Users users = app.db().getUsersFromBD();
-    return users.stream().filter((u) -> u.getAccessLevel() != 25).iterator().next();
+    return users.stream().filter((u) -> u.getAccessLevel() != 90).iterator().next();
   }
 
   public void startResetPassword() {
-    click(By.cssSelector("input[value=\"Reset Password\"]"));
+    click(By.cssSelector("input[value=\"Сбросить пароль\"]"));
   }
 
   public void login(String username, String password) {
