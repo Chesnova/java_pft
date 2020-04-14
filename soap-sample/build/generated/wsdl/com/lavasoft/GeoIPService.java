@@ -19,7 +19,7 @@ import javax.xml.ws.Service;
 @WebServiceClient(name = "GeoIPService",
                   wsdlLocation = "file:/C:/trainings/java_pft/soap-sample/src/main/resources/geoipservice.wsdl",
                   targetNamespace = "http://lavasoft.com/")
-public class GeoIPService extends Service {
+public class    GeoIPService extends Service {
 
     public final static URL WSDL_LOCATION;
 
