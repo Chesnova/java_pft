@@ -27,14 +27,15 @@ public class RestTests {
     int issueId = createIssue(newIssue);
     //получаем новый список
     Set<Issue> newIssues = getIssues();
-    //oldIssues.add(newIssue.withId(issueId)); //20 bugs per page allowed
+    oldIssues.add(newIssue.withId(issueId).withStatus("Open")); //смотрим в статусе открыт
     //сравниваем
     assertEquals(newIssues,oldIssues);
   }
 
 
   private Set<Issue> getIssues() throws IOException {
-    String json = getExecutor().execute(Request.Get("https://bugify.stqa.ru/api/issues.json"))
+    //добавила лимит 500
+    String json = getExecutor().execute(Request.Get("https://bugify.stqa.ru/api/issues.json?limit=500"))
             .returnContent().asString();
     //анализируем строчку
     JsonElement parsed = JsonParser.parseString(json);
