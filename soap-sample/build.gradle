@@ -24,3 +24,7 @@ wsdl2java {
     wsdlsToGenerate = [ [ "$projectDir/src/main/resources/geoipservice.wsdl" ] ]
 
 }
+
+test {
+    useTestNG()
+}
