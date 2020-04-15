@@ -22,10 +22,12 @@ public class TestBase {
   protected static final ApplicationManager app
           = new ApplicationManager(System.getProperty("browser", BrowserType.FIREFOX));
 
+
   @BeforeSuite
   public void setUp() throws Exception {
     app.init();
-    app.ftp().upload(new File("src/test/resources/config_inc.php"),"config_inc.php","config_inc.php.bak");
+    app.ftp().upload(new File("src/test/resources/config_inc.php"),
+            "config_inc.php","config_inc.php.bak");
   }
 
   @AfterSuite(alwaysRun = true)
@@ -56,6 +58,4 @@ public class TestBase {
       throw new SkipException("Ignored because of issue " + issueId);
     }
   }
-
-
 }
