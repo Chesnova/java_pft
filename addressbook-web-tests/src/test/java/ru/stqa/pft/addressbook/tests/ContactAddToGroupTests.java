@@ -1,87 +1,79 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactAddToGroupTests extends TestBase {
 
-  @BeforeMethod
-  public void ensurePreconditions(){
-    app.goTo().groupPage();
-    if (app.db().groups().size() == 0) { //проверка наличия хотябы одной группы, если нет, то добавляем группу
+  ContactData helpContact = new ContactData()
+          .withLastName("test1").withFirstName("test").withTelephone("+79111111111").withEMail("test@mail.com");
+  GroupData helpGroup = new GroupData().withName("test8");
+
+  @BeforeClass
+  public void ensurePreconditions() {
+    if (app.db().groups().size() == 0) {
       app.goTo().groupPage();
-      app.group().create(new GroupData().withName("test5"));
+      app.group().create(helpGroup);
     }
-    app.goTo().homePage();
-    if (app.db().contacts().size() == 0) { //проверка наличия хотябы одного контакта, если нет, то добавляем контакт
-      app.goTo().homePage();
-      app.contact().create(new ContactData()
-              .withLastName("test1").withFirstName("test").withTelephone("+79111111111").withEMail("test@mail.com"));
-    }
-  }
-  public List<Integer> validGroupAndContactID () {
-    Contacts contacts = app.db().contacts();
+
     Groups groups = app.db().groups();
-    List<Integer> validGroupAndContactID = new ArrayList<>();
-    for (ContactData contact : contacts) {
-      for (GroupData group : groups) {
-        if (app.contact().isContactInGroup(contact, group)) {
-          validGroupAndContactID.add(group.getId());
-          validGroupAndContactID.add(contact.getId());
-          return validGroupAndContactID;
-        }
-      }
+    if (app.db().contacts().size() == 0) {
+      app.goTo().newContact();
+      app.contact().createContact(helpContact.inGroup(groups.iterator().next()), true);
+      app.goTo().homePage();
     }
-    return validGroupAndContactID;
   }
 
   @Test
-  public void testContactAddToGroup(){
-    Contacts before = app.db().contacts(); //формируем список всех контактов перед добавлением в группу
-    ContactData contact = before.iterator().next(); //количество контактов до
-    Groups addedGroups = contact.getGroups();//сколько групп - выбрали контакт для добавления в группу
-    Groups existGroups = app.db().groups(); //количество групп для добавления
-    Groups notAdded = new Groups(); //узнали, что не добавленны в группу - добавляем в группу
+  public void testAddContactToGroup() {
+    Contacts usersAll = app.db().contacts();
+    Groups groupsAll = app.db().groups();
 
-    if (existGroups == addedGroups ) { //количество групп - количество выбранных групп
-      app.goTo().groupPage();  //идем на страницу групп
-      GroupData newGroup = new GroupData().withName("the_new_group");
-      app.group().create(newGroup);
-      existGroups = app.db().groups();
-      GroupData group = newGroup.withId(existGroups.stream().mapToInt((g) -> (g.getId())).max().getAsInt());
-    }
-    for (GroupData group : existGroups)  { // представленных групп
-      if (!addedGroups.contains(group)) { // выбранных ноль - выбираем из представленных групп
-        notAdded.add(group); // нет выбранных
+    ContactData userSelect = null;
+    GroupData groupSelect = null;
+    ContactData userAfter = null;
+
+    for (ContactData currentUser : usersAll) {
+      Groups groupsOfSelectedUser = currentUser.getGroups();
+      if (groupsOfSelectedUser.size() != groupsAll.size()) {
+        groupsAll.removeAll(groupsOfSelectedUser);
+        groupSelect = groupsAll.iterator().next();
+        userSelect = currentUser;
+        break;
       }
     }
-    GroupData group = notAdded.iterator().next();
-    app.contact().addToGroup(contact.getId(), group);
+    if (groupSelect == null) {
+      ContactData user = helpContact;
+      app.goTo().newContact();
+      app.contact().createContact(user, true);
+      app.goTo().homePage();
+      Contacts userA = app.db().contacts();
+      user.withId(userA.stream().mapToInt((g) -> (g).getId()).max().getAsInt());
+      userSelect = user;
+      groupSelect = groupsAll.iterator().next();
+    }
+
     app.goTo().homePage();
-    Groups updatedGroups = contact.getGroups();
+    app.contact().allGroupsOnUserPage();
+    app.contact().selectGroupforContact(userSelect, groupSelect);
+    app.goTo().homePage();
 
- //   assertThat(app.contact().count(), equalTo(before.size()));
-//    assertThat(updatedGroups, equalTo(existGroups.withAdded(group)));
-    verifyContactListInUI();
-    //В тесте добавления контакта в группу, если все контакты добавлены во все группы.
-    // В данном случае надо создавать новый контакт или группу.
+    Contacts usersAllAfter = app.db().contacts();
+    for (ContactData currentUserAfter : usersAllAfter) {
+      if (currentUserAfter.getId() == userSelect.getId()) {
+        userAfter = currentUserAfter;
+      }
+    }
 
-
-
+    assertThat(userSelect.getGroups(), equalTo(userAfter.getGroups().without(groupSelect)));
   }
+
 }

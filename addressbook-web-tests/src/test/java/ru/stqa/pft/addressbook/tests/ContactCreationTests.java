@@ -10,7 +10,6 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,7 +55,7 @@ public class ContactCreationTests extends TestBase {
     app.goTo().homePage();
     Contacts before = app.db().contacts();
     app.goTo().addnewPage();
-    app.contact().create(contact);
+    app.contact().createContact(contact);
     app.goTo().homePage();
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.db().contacts();
@@ -78,7 +77,7 @@ public class ContactCreationTests extends TestBase {
             .inGroup(groups.iterator().next());
 
     app.goTo().addnewPage();
-    app.contact().create(contact);
+    app.contact().createContact(contact);
     app.goTo().homePage();
  }
 
@@ -88,7 +87,7 @@ public class ContactCreationTests extends TestBase {
     app.goTo().addnewPage();
     ContactData contact = new ContactData()
             .withLastName("test'").withFirstName("test").withTelephone("+79111111111").withEMail("test@mail.com"); //.withGroup("test1")
-    app.contact().create(contact);
+    app.contact().createContact(contact);
     app.goTo().homePage();
     assertThat(app.contact().count(), equalTo(before.size()));
     Contacts after = app.contact().all();

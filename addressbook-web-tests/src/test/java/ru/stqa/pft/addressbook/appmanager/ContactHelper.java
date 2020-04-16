@@ -12,6 +12,8 @@ import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.List;
 
+import static javafx.beans.binding.Bindings.select;
+
 public class ContactHelper extends HelperBase {
 
   public ContactHelper(WebDriver wd) {
@@ -58,7 +60,12 @@ public class ContactHelper extends HelperBase {
   }
 
   public void selectContactById(int id) {
-    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+    //wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+    //wd.findElement(By.xpath(String.format("//input[@value='%s']/../../td[8]/a",id))).click();
+    //wd.findElement((By.cssSelector("a[href*='edit.php?id=" + id + "']"))).click();
+    //click(By.cssSelector("select[name='selected[]']>option[value='" +  id + "']"));
+    click(By.cssSelector("input[value='" + id + "']"));
+
   }
 
   public void selectedAlert() {
@@ -74,7 +81,13 @@ public class ContactHelper extends HelperBase {
     wd.findElement(By.xpath(String.format("//input[@value='%s']/../../td[8]/a",id))).click();
   }
 
-  public void create(ContactData contact) {
+  public void createContact(ContactData contact) {
+    fillContactForm(contact, true);
+    submitContactCreation();
+    contactCache = null;
+    returnToHomePage();
+  }
+  public void createContact(ContactData contact, boolean creation) {
     fillContactForm(contact, true);
     submitContactCreation();
     contactCache = null;
@@ -89,7 +102,9 @@ public class ContactHelper extends HelperBase {
     returnToHomePage(); //вернуться на главную страницу
   }
 
-
+  public void allGroupsOnUserPage() {
+    new Select(wd.findElement(By.name("group"))).selectByVisibleText("[all]");
+  }
 
   public void delete(ContactData contact) {
     selectContactById(contact.getId());
@@ -132,6 +147,9 @@ public class ContactHelper extends HelperBase {
       }
     return new Contacts(contactCache);
   }
+  public void choiceGroup(String nameGroup) {
+    select(By.name("to_group"), nameGroup);
+  }
 
   public ContactData contactInfoFromEditForm(ContactData contact) {
     initContactModificationById(contact.getId());
@@ -172,20 +190,28 @@ public class ContactHelper extends HelperBase {
     return false;
   }
 
- public void removeFromGroup(ContactData contact, GroupData groupUnassigned){
+ /*public void removeFromGroup(ContactData contact, GroupData groupUnassigned){
     returnToHomePage();
     selectGroup(groupUnassigned.getName());
     selectContactById(contact.getId());
     wd.findElement(By.name("remove")).click();
     returnToHomePage();
-  }
+  }*/
  public void submitContactDeleteFromGroup() {
    //wd.findElement(By.name("remove")).click(); не подходит
    //wd.findElement(By.xpath("//input[@name='remove']")).click(); не подходит
    click(By.cssSelector("input[type='submit']"));
  }
-  private void selectGroup(String groupName){
+  private void selectGroupforContact(String groupName){
     new Select(wd.findElement(By.name("group"))).selectByVisibleText(groupName);
+  }
+
+  public void selectGroupforContact(ContactData user, GroupData group){
+    selectContactById(user.getId());
+    String groupId = String.valueOf(group.getId());
+    new Select(wd.findElement(By.name("to_group"))).selectByValue(groupId);
+    submitContactToGroup();
+    contactCache = null;
   }
 
   public void selectedGroup(ContactData user, GroupData group){

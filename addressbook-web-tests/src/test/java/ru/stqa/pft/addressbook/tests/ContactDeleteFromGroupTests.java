@@ -1,5 +1,6 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -12,20 +13,25 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactDeleteFromGroupTests extends TestBase{
 
+  ContactData helpContact = new ContactData()
+          .withLastName("test1").withFirstName("test").withTelephone("+79111111111").withEMail("test@mail.com");
+  GroupData helpGroup = new GroupData().withName("test8");
 
-  @BeforeMethod
-  public void ensurePreconditions(){
-    if (app.db().groups().size() == 0) { //проверка наличия хотябы одной группы, если нет, то добавляем группу
+  @BeforeClass
+  public void ensurePreconditions() {
+    if (app.db().groups().size() == 0) {
       app.goTo().groupPage();
-      app.group().create(new GroupData().withName("test5"));
-    }
-    if (app.db().contacts().size() == 0) { //проверка наличия хотябы одного контакта, если нет, то добавляем контакт
-      app.goTo().homePage();
-      app.contact().create(new ContactData()
-              .withLastName("test1").withFirstName("test").withTelephone("+79111111111").withEMail("test@mail.com"));
+      app.group().create(helpGroup);
     }
 
-}
+    Groups groups = app.db().groups();
+    if (app.db().contacts().size() == 0) {
+      app.goTo().newContact();
+      app.contact().createContact(helpContact.inGroup(groups.iterator().next()), true);
+      app.goTo().homePage();
+    }
+  }
+
   @Test
   public void testContactDeleteFromGroup() {
     ContactData userAfter = null;

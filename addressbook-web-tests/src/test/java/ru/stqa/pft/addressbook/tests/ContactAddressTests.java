@@ -15,7 +15,7 @@ public class ContactAddressTests extends TestBase{
   public void ensurePreconditions() {
     app.goTo().homePage();
     if (app.contact().all().size() == 0) {
-      app.contact().create(new ContactData()
+      app.contact().createContact(new ContactData()
               .withLastName("test").withFirstName("test")
               .withAddress("198000, Saint Petersburg,\n" + "Nevsky prospekt, 25/3-43\n" + "domofon 43")
               .withMobilePhone("+79111111111")

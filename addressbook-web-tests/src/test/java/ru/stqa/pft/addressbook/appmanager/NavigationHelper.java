@@ -29,4 +29,7 @@ public class NavigationHelper extends HelperBase {
     }
     click(By.linkText("home"));
   }
+  public void newContact() {
+    click(By.linkText("add new"));
+  }
 }

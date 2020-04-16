@@ -14,7 +14,7 @@ public class ContactModificationTests extends TestBase {
   public void ensurePreconditions(){
     if (app.db().contacts().size() == 0) {
       app.goTo().homePage();
-      app.contact().create(new ContactData()
+      app.contact().createContact(new ContactData()
               .withLastName("test1").withFirstName("test").withTelephone("+79111111111").withEMail("test@mail.com")); //.withGroup("test1")
     }
   }
