@@ -190,13 +190,6 @@ public class ContactHelper extends HelperBase {
     return false;
   }
 
- /*public void removeFromGroup(ContactData contact, GroupData groupUnassigned){
-    returnToHomePage();
-    selectGroup(groupUnassigned.getName());
-    selectContactById(contact.getId());
-    wd.findElement(By.name("remove")).click();
-    returnToHomePage();
-  }*/
  public void submitContactDeleteFromGroup() {
    //wd.findElement(By.name("remove")).click(); не подходит
    //wd.findElement(By.xpath("//input[@name='remove']")).click(); не подходит
