@@ -1,6 +1,8 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.hamcrest.CoreMatchers;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -20,11 +22,13 @@ public class ContactAddToGroupTests extends TestBase {
 
   @BeforeMethod
   public void ensurePreconditions(){
-    if (app.db().groups().size() == 0) {
+    app.goTo().groupPage();
+    if (app.db().groups().size() == 0) { //проверка наличия хотябы одной группы, если нет, то добавляем группу
       app.goTo().groupPage();
-      app.group().create(new GroupData().withName("test1"));
+      app.group().create(new GroupData().withName("test5"));
     }
-    if (app.db().contacts().size() == 0) {
+    app.goTo().homePage();
+    if (app.db().contacts().size() == 0) { //проверка наличия хотябы одного контакта, если нет, то добавляем контакт
       app.goTo().homePage();
       app.contact().create(new ContactData()
               .withLastName("test1").withFirstName("test").withTelephone("+79111111111").withEMail("test@mail.com"));
@@ -48,22 +52,22 @@ public class ContactAddToGroupTests extends TestBase {
 
   @Test
   public void testContactAddToGroup(){
-    Contacts before = app.db().contacts();
-    ContactData contact = before.iterator().next();
-    Groups addedGroups = contact.getGroups();
-    Groups existGroups = app.db().groups();
-    Groups notAdded = new Groups();
+    Contacts before = app.db().contacts(); //формируем список всех контактов перед добавлением в группу
+    ContactData contact = before.iterator().next(); //количество контактов до
+    Groups addedGroups = contact.getGroups();//сколько групп - выбрали контакт для добавления в группу
+    Groups existGroups = app.db().groups(); //количество групп для добавления
+    Groups notAdded = new Groups(); //узнали, что не добавленны в группу - добавляем в группу
 
-    if (existGroups == addedGroups ) {
-      app.goTo().groupPage();
+    if (existGroups == addedGroups ) { //количество групп - количество выбранных групп
+      app.goTo().groupPage();  //идем на страницу групп
       GroupData newGroup = new GroupData().withName("the_new_group");
       app.group().create(newGroup);
       existGroups = app.db().groups();
       GroupData group = newGroup.withId(existGroups.stream().mapToInt((g) -> (g.getId())).max().getAsInt());
     }
-    for (GroupData group : existGroups)  {
-      if (!addedGroups.contains(group)) {
-        notAdded.add(group);
+    for (GroupData group : existGroups)  { // представленных групп
+      if (!addedGroups.contains(group)) { // выбранных ноль - выбираем из представленных групп
+        notAdded.add(group); // нет выбранных
       }
     }
     GroupData group = notAdded.iterator().next();
@@ -74,24 +78,10 @@ public class ContactAddToGroupTests extends TestBase {
  //   assertThat(app.contact().count(), equalTo(before.size()));
 //    assertThat(updatedGroups, equalTo(existGroups.withAdded(group)));
     verifyContactListInUI();
-  }
-
-  @Test
-  public void testContactDeleteFromGroup() {
-    List<Integer> validID= validGroupAndContactID();
-    Contacts before = app.db().contacts();
-    Groups groups = app.db().groups();
-
-    ContactData modifiedContact = before.stream().filter(data -> Objects.equals(data.getId(), validID.get(1))).findFirst().get();
-    GroupData groupUnassigned = groups.stream().filter(data -> Objects.equals(data.getId(), validID.get(0))).findFirst().get();
-
-    ContactData contact = modifiedContact;
+    //В тесте добавления контакта в группу, если все контакты добавлены во все группы.
+    // В данном случае надо создавать новый контакт или группу.
 
 
-    app.goTo().homePage();
-    app.contact().removeFromGroup(contact, groupUnassigned);
-    Contacts after = app.db().contacts();
-    ContactData contactModifiedDb = after.stream().filter(data -> Objects.equals(data.getId(), modifiedContact.getId())).findFirst().get();
-    Assert.assertFalse(app.contact().isContactInGroup(contactModifiedDb, groupUnassigned ));
+
   }
 }

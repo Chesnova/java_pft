@@ -43,6 +43,7 @@ public class HbConnectionTest {
 
     for (ContactData contact : result) {
       System.out.println(contact);
+      //информация о том в какие группы входит контакт
       System.out.println(contact.getGroups());
     }
 
