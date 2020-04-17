@@ -14,7 +14,7 @@ public class ContactDeleteFromGroupTests extends TestBase{
 
   ContactData helpContact = new ContactData()
           .withLastName("test1").withFirstName("test").withTelephone("+79111111111").withEMail("test@mail.com");
-  GroupData helpGroup = new GroupData().withName("test8");
+  GroupData helpGroup = new GroupData().withName("test9");
 
   @BeforeClass
   public void ensurePreconditions() {
