@@ -1,7 +1,6 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
@@ -57,6 +56,7 @@ public class ContactDeleteFromGroupTests extends TestBase{
       app.contact().selectedGroup(userSelect, groupSelect); // добавляем контакт в группу
     }
 
+    app.goTo().homePage();
     app.contact().selectGroupFilterByName(groupSelect);
     app.contact().selectContactById(userSelect.getId());
     app.contact().submitContactDeleteFromGroup(); //удаляем контакт из группы
@@ -69,7 +69,7 @@ public class ContactDeleteFromGroupTests extends TestBase{
       }
     }
 
-    assertThat(userSelect.getGroups(), equalTo(userAfter.getGroups().withAdded(groupSelect)));
+    assertThat(userSelect.getGroups(), equalTo(userAfter.getGroups().without(groupSelect)));
   }
 
 }

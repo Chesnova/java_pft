@@ -217,7 +217,7 @@ public class ContactHelper extends HelperBase {
 
   public void selectGroupFilterByName(GroupData group) {
     String groupId = String.valueOf(group.getId());
-    new Select(wd.findElement(By.name("to_group"))).selectByValue(groupId);
+    new Select(wd.findElement(By.name("group"))).selectByValue(groupId);
   }
 
   public void selectGroupById(ContactData user, GroupData group){
